@@ -42,6 +42,68 @@ Ajouter dans `.mcp.json` à la racine du projet :
 }
 ```
 
+## Intégration avec LibreChat (Docker)
+
+### 1. Cloner le repo dans le dossier LibreChat
+
+```bash
+# À côté de docker-compose.yml
+git clone https://github.com/skezu/wikijs-mcp.git
+```
+
+### 2. Ajouter les variables d'environnement dans `.env`
+
+```env
+WIKIJS_URL=https://votre-wiki.example.com
+WIKIJS_TOKEN=votre-token-api
+```
+
+### 3. Ajouter le service dans `docker-compose.override.yml`
+
+```yaml
+services:
+  mcp-wikijs:
+    build:
+      context: ./wikijs-mcp
+    container_name: mcp-wikijs
+    ports:
+      - "8002:3000"
+    environment:
+      - WIKIJS_URL=${WIKIJS_URL}
+      - WIKIJS_TOKEN=${WIKIJS_TOKEN}
+    networks:
+      - librechat-network
+    restart: unless-stopped
+
+networks:
+  librechat-network:
+    external: true
+    name: librechat_default
+```
+
+### 4. Lancer le service
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.override.yml up -d mcp-wikijs
+```
+
+### 5. Configurer `librechat.yaml`
+
+```yaml
+mcpServers:
+  wikijs:
+    url: http://mcp-wikijs:3000/sse
+    type: sse
+```
+
+Puis redémarrer LibreChat :
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.override.yml restart api
+```
+
+---
+
 ## Outils disponibles
 
 ### Pages
