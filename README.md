@@ -20,7 +20,7 @@ Deux variables d'environnement sont requises :
 
 | Variable | Description |
 |---|---|
-| `WIKIJS_URL` | URL de base de votre instance Wiki.js (ex: `https://platform.digiteka.com`) |
+| `WIKIJS_URL` | URL de base de votre instance Wiki.js (ex: `https://wiki.example.com`) |
 | `WIKIJS_TOKEN` | Token JWT généré depuis l'interface d'administration Wiki.js |
 
 ## Intégration avec Claude Code
